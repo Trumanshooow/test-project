@@ -1,4 +1,4 @@
-import {DataTableDemo} from "@/components/table/data-table";
+import {DataTableDemo} from "@/components/TableData/data-table";
 import {getPosts} from "@/lib/placeholder-data";
 import {dehydrate, HydrationBoundary, QueryClient} from "@tanstack/react-query";
 
@@ -56,7 +56,7 @@ async function Home() {
     });
 
     return (
-        <main className="container mx-auto py-10">
+        <main className="container bg-violet-200 mx-auto py-10">
             <HydrationBoundary state={dehydrate(queryClient)}>
                 <DataTableDemo/>
             </HydrationBoundary>

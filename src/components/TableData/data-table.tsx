@@ -17,9 +17,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {Button} from "@/components/ui/button";
 import {ChevronDown} from "lucide-react";
-import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/TableData/table";
 import {getPosts} from "@/lib/placeholder-data";
-import {columns} from "@/components/table/columns";
+import {columns} from "@/components/TableData/columns";
 import {useQuery} from "@tanstack/react-query";
 
 export function DataTableDemo() {
