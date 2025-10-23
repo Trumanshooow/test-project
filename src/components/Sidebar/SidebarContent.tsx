@@ -4,12 +4,17 @@ import routes, {routeIsActive} from "@/routes/sidebar";
 import SidebarSubmenu from './SidebarSubmenu'
 import { useRouter } from 'next/router'
 import {Button} from "@/components/ui/button";
+import DashboardIcon from "@/components/Icons/dashboard";
 
 function SidebarContent() {
   // const { pathname } = useRouter();
 
   return (
-    <div className="text-gray-500 dark:text-gray-400">
+    <div className="flex flex-col text-gray-500 bg-amber-200 dark:text-gray-400">
+      <div className="flex w-full items-center">
+          <DashboardIcon className="w-10"/>
+          <h3>Sidebar</h3>
+      </div>
       <ul>
         {routes.map((route) =>
           route.routes ? (
@@ -43,14 +48,6 @@ function SidebarContent() {
           )
         )}
       </ul>
-      <div className="px-6 my-6">
-        <Button>
-          Create account
-          <span className="ml-2" aria-hidden="true">
-            +
-          </span>
-        </Button>
-      </div>
     </div>
   )
 }

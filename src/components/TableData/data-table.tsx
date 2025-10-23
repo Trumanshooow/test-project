@@ -18,23 +18,15 @@ import {
 import {Button} from "@/components/ui/button";
 import {ChevronDown} from "lucide-react";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/TableData/table";
-import {getPosts} from "@/lib/placeholder-data";
-import {columns} from "@/components/TableData/columns";
-import {useQuery} from "@tanstack/react-query";
 
-export function DataTableDemo() {
+export function DataTableDemo({data, columns}) {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
     const [rowSelection, setRowSelection] = React.useState({})
 
-    const { data, isLoading, error } = useQuery({
-        queryKey: ['posts'],
-        queryFn: getPosts,
-    });
-
     const table = useReactTable({
-        data,
+        data: data ?? [] ,
         columns,
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
@@ -52,11 +44,8 @@ export function DataTableDemo() {
         },
     })
 
-    // if (isLoading) return <div>در حال بارگذاری...</div>;
-    // if (error) return <div>خطا: {error.message}</div>;
-
     return (
-        <div className="w-full">
+        <div className="w-full bg-white rounded-3xl px-10 py-6">
             <div className="flex items-center py-4">
                 <Input
                     placeholder="Filter emails..."
@@ -64,12 +53,12 @@ export function DataTableDemo() {
                     onChange={(event) =>
                         table.getColumn("email")?.setFilterValue(event.target.value)
                     }
-                    className="max-w-sm"
+                    className="max-w-sm ml-2"
                 />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">
-                            Columns <ChevronDown />
+                            Columns <ChevronDown/>
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
@@ -93,7 +82,7 @@ export function DataTableDemo() {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <div className="overflow-hidden rounded-md border">
+            <div className="overflow-hidden rounded-md border px-4">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
