@@ -1,10 +1,12 @@
 "use client"
 
 import {ColumnDef} from "@tanstack/react-table"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+import {Button} from "@/components/ui/button"
+import {Checkbox} from "@/components/ui/checkbox"
 import {ArrowUpDown} from "lucide-react"
+
 import * as React from "react";
+
 export type Payment = {
     id: string
     amount: number
@@ -12,7 +14,7 @@ export type Payment = {
     email: string
 }
 
-export const usersTableColumns: ColumnDef<Payment>[] = [
+export const postsTableColumns: ColumnDef<Payment>[] = [
     {
         id: "select",
         header: ({table}) => (
@@ -36,33 +38,34 @@ export const usersTableColumns: ColumnDef<Payment>[] = [
         enableHiding: false,
     },
     {
-        accessorKey: "name",
-        header: "Name",
+        accessorKey: "title",
+        header: "Title",
         cell: ({row}) => (
-            <div className="capitalize">{row.getValue("name")}</div>
+            <div className="capitalize max-w-28">{row.getValue("title")}</div>
         ),
     },
     {
-        accessorKey: "username",
-        header: "Username",
+        accessorKey: "body",
+        header: "Body",
         cell: ({row}) => (
-            <div className="capitalize">{row.getValue("username")}</div>
+            <div className="capitalize max-w-52">{row.getValue("body")}</div>
         ),
     },
     {
-        accessorKey: "email",
+        accessorKey: "id",
         header: ({column}) => {
             return (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Email
+                    Id
                     <ArrowUpDown/>
                 </Button>
             )
         },
-        cell: ({row}) => <div className="lowercase">{row.getValue("email")}</div>,
+        cell: ({row}) => <div className="lowercase pr-3">{row.getValue("id")}</div>,
     },
 ]
-export default usersTableColumns
+
+export default postsTableColumns

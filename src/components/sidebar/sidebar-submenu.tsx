@@ -10,7 +10,6 @@ interface ISidebarSubmenu {
 }
 
 function SidebarSubmenu({ route }: ISidebarSubmenu) {
-  // const { pathname } = useRouter()
 
   const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(
     route.routes

@@ -1,9 +1,12 @@
-import type {Metadata} from "next";
 import {Geist, Geist_Mono} from "next/font/google";
-import Providers from "@/app/provider";
+import Sidebar from "../components/sidebar";
+import Header from "../components/header";
+import {ThemeProvider} from "../components/theme-provider";
+import QueryProviders from "@/lib/QueryProviders";
 import "./globals.css";
-import Sidebar from "@/components/Sidebar";
-import Header from "@/components/Header";
+
+import type {Metadata} from "next";
+import {type ReactNode} from 'react';
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -23,23 +26,27 @@ export const metadata: Metadata = {
 export default function RootLayout({
                                        children,
                                    }: Readonly<{
-    children: React.ReactNode;
+    children: ReactNode;
 }>) {
     return (
-        <html lang="fa" dir="rtl" >
+        <html lang="fa" dir="rtl">
         <body
             className={`${geistSans.variable} ${geistMono.variable}
          flex flex-col h-screen bg-gray-200 antialiased`
             }>
-        <Header/>
-        <div className="flex h-screen">
-            <Sidebar/>
-            <Providers>
-                <div className="container flex flex-col mx-auto py-10">
-                    {children}
+        <ThemeProvider>
+            <Header/>
+            <div className="grid grid-cols-12 w-full h-screen">
+                <div className="col-span-2">
+                    <Sidebar/>
                 </div>
-            </Providers>
-        </div>
+                <div className="container flex flex-col col-span-10 mx-auto p-10">
+                    <QueryProviders>
+                        {children}
+                    </QueryProviders>
+                </div>
+            </div>
+        </ThemeProvider>
         </body>
         </html>
     );

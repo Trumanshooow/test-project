@@ -1,24 +1,23 @@
 'use client'
 import React from 'react';
-import {DataTableDemo} from "@/components/TableData/data-table";
+import PostsTable from "@/components/table-data/posts-table";
 import {getPosts} from "@/lib/placeholder-data";
 import {useQuery} from "@tanstack/react-query";
-import PostsTableColumns from "@/components/TableData/postsTableColumns";
+import PostsTableColumns from "@/components/table-data/posts-table-columns";
 
 
-function UsersPage () {
+function PostsPage () {
 
     const {data, isLoading, error} = useQuery({
         queryKey: ['Posts'],
         queryFn: getPosts,
     });
-    console.log(data, 32213123123)
 
     return (
         <>
-            <DataTableDemo data={data} columns={PostsTableColumns}/>
+            <PostsTable data={data} columns={PostsTableColumns}/>
         </>
     );
 }
-export default UsersPage;
+export default PostsPage;
 

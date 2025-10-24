@@ -1,11 +1,23 @@
-import { create } from 'zustand'
+import {create} from 'zustand';
+import {persist} from 'zustand/middleware';
 
-interface UserState {
-    user: string | null;
-    setUser: (user: string) => void;
+type Theme = 'light' | 'dark';
+
+interface ThemeState {
+    theme: Theme;
+    toggleTheme: () => void;
+    setTheme: (theme: Theme) => void;
 }
 
-export const useUserStore = create<UserState>((set) => ({
-    user: null,
-    setUser: (user) => set({ user }),
-}));
+export const useThemeStore = create<ThemeState>()(
+    persist(
+        (set) => ({
+            theme: 'light',
+            toggleTheme: () => set((state) => ({theme: state.theme === 'light' ? 'dark' : 'light'})),
+            setTheme: (theme) => set({theme}),
+        }),
+        {
+            name: 'theme-storage',
+        }
+    )
+);

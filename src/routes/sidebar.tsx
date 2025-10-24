@@ -1,5 +1,5 @@
 /**
- * ⚠ These are used just to render the Sidebar!
+ * ⚠ These are used just to render the sidebar!
  * You can include any link here, local or external.
  *
  */
@@ -9,11 +9,11 @@ interface IRoute{
   icon?: string
   name: string
   routes?: IRoute[]
-  checkActive?(pathname: String, route: IRoute): boolean
+  checkActive?(pathname: string, route: IRoute): boolean
   exact?: boolean
 }
 
-export function routeIsActive (pathname: String, route: IRoute): boolean {
+export function routeIsActive (pathname: string, route: IRoute): boolean {
   if (route.checkActive) {
     return route.checkActive(pathname, route)
   }
@@ -27,7 +27,7 @@ const routes: IRoute[] = [
   {
     path: '/users', // the url
     icon: 'HomeIcon', // the component being exported from icons/index.js
-    name: 'Users', // name that appear in Sidebar
+    name: 'Users', // name that appear in sidebar
     exact: true,
   },
   {

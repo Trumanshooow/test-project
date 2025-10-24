@@ -17,9 +17,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {Button} from "@/components/ui/button";
 import {ChevronDown} from "lucide-react";
-import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/TableData/table";
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/table-data/table";
 
-export function DataTableDemo({data, columns}) {
+function UsersTable({data, columns}) {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
@@ -45,7 +45,7 @@ export function DataTableDemo({data, columns}) {
     })
 
     return (
-        <div className="w-full bg-white rounded-3xl px-10 py-6">
+        <div className="w-full bg-white dark:bg-gray-800 rounded-3xl px-10 py-6">
             <div className="flex items-center py-4">
                 <Input
                     placeholder="Filter emails..."
@@ -53,15 +53,15 @@ export function DataTableDemo({data, columns}) {
                     onChange={(event) =>
                         table.getColumn("email")?.setFilterValue(event.target.value)
                     }
-                    className="max-w-sm ml-2"
+                    className="max-w-sm ml-2 border-gray-300 dark:text-white"
                 />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto">
+                        <Button variant="outline" className="ml-auto  dark:text-white">
                             Columns <ChevronDown/>
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
+                    <DropdownMenuContent align="end" className="bg-white">
                         {table
                             .getAllColumns()
                             .filter((column) => column.getCanHide())
@@ -89,7 +89,7 @@ export function DataTableDemo({data, columns}) {
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <TableHead key={header.id}>
+                                        <TableHead key={header.id} className="pr-6">
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
@@ -108,9 +108,10 @@ export function DataTableDemo({data, columns}) {
                                 <TableRow
                                     key={row.id}
                                     data-state={row.getIsSelected() && "selected"}
+                                    className="dark:border-white"
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
+                                        <TableCell key={cell.id} className="pr-6">
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()
@@ -133,16 +134,17 @@ export function DataTableDemo({data, columns}) {
                 </Table>
             </div>
             <div className="flex items-center justify-end space-x-2 py-4">
-                <div className="text-muted-foreground flex-1 text-sm">
+                <div className="text-muted-foreground flex-1 dark:text-white text-sm">
                     {table.getFilteredSelectedRowModel().rows.length} of{" "}
                     {table.getFilteredRowModel().rows.length} row(s) selected.
                 </div>
-                <div className="space-x-2">
+                <div className="flex gap-2">
                     <Button
                         variant="outline"
                         size="sm"
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
+                        className="dark:text-white"
                     >
                         Previous
                     </Button>
@@ -151,6 +153,7 @@ export function DataTableDemo({data, columns}) {
                         size="sm"
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
+                        className="dark:text-white"
                     >
                         Next
                     </Button>
@@ -159,3 +162,5 @@ export function DataTableDemo({data, columns}) {
         </div>
     )
 }
+
+export default UsersTable

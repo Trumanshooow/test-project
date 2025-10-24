@@ -1,9 +1,9 @@
 'use client'
 import React from 'react';
 import {useQuery} from "@tanstack/react-query";
-import {DataTableDemo} from "@/components/TableData/data-table";
 import {getUsers} from "@/lib/placeholder-data";
-import usersTableColumns from "@/components/TableData/usersTableColumns";
+import usersTableColumns from "@/components/table-data/users-table-columns";
+import UsersTable from "@/components/table-data/users-table";
 
 
 function UsersPage() {
@@ -12,11 +12,10 @@ function UsersPage() {
         queryKey: ['users'],
         queryFn: getUsers,
     });
-    console.log(data, 32213123123)
 
     return (
         <>
-            <DataTableDemo data={data} columns={usersTableColumns}/>
+            <UsersTable data={data} columns={usersTableColumns}/>
         </>
     );
 };

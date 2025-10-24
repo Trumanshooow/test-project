@@ -1,14 +1,8 @@
-import {DataTableDemo} from "@/components/TableData/data-table";
-import {getPosts} from "@/lib/placeholder-data";
-import {dehydrate, HydrationBoundary, QueryClient} from "@tanstack/react-query";
+'use client';
+import { redirect } from 'next/navigation'
 
-async function Home() {
-
-    return (
-       <>
-
-       </>
-    )
+function Home() {
+    redirect('/posts')
 }
 
 export default Home

@@ -1,16 +1,16 @@
 "use client"
 import React, { useRef } from 'react'
 
-import SidebarContent from './SidebarContent'
+import SidebarContent from './sidebar-content'
 
 function DesktopSidebar() {
-  const sidebarRef = useRef(null)
+
 
   return (
     <div
       id="desktopSidebar"
-      ref={sidebarRef}
-      className="h-full hidden w-64 bg-white dark:bg-gray-800 lg:block"
+
+      className="h-full hidden w-full bg-white dark:bg-gray-800 sm:block"
     >
       <SidebarContent />
     </div>

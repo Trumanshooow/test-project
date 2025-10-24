@@ -4,7 +4,6 @@ import {ColumnDef} from "@tanstack/react-table"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {ArrowUpDown} from "lucide-react"
-
 import * as React from "react";
 export type Payment = {
     id: string
@@ -13,8 +12,7 @@ export type Payment = {
     email: string
 }
 
-export const postsTableColumns: ColumnDef<Payment>[] = [
-
+export const usersTableColumns: ColumnDef<Payment>[] = [
     {
         id: "select",
         header: ({table}) => (
@@ -38,41 +36,33 @@ export const postsTableColumns: ColumnDef<Payment>[] = [
         enableHiding: false,
     },
     {
-        accessorKey: "title",
-        header: "Title",
+        accessorKey: "name",
+        header: "Name",
         cell: ({row}) => (
-            <div className="capitalize">{row.getValue("title")}</div>
+            <div className="capitalize">{row.getValue("name")}</div>
         ),
     },
     {
-        accessorKey: "body",
-        header: "Body",
+        accessorKey: "username",
+        header: "Username",
         cell: ({row}) => (
-            <div className="capitalize">{row.getValue("body")}</div>
+            <div className="capitalize">{row.getValue("username")}</div>
         ),
     },
-    // {
-    //     accessorKey: "status",
-    //     header: "Status",
-    //     cell: ({row}) => (
-    //         <div className="capitalize">{row.getValue("status")}</div>
-    //     ),
-    // },
     {
-        accessorKey: "id",
+        accessorKey: "email",
         header: ({column}) => {
             return (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Id
+                    Email
                     <ArrowUpDown/>
                 </Button>
             )
         },
-        cell: ({row}) => <div className="lowercase">{row.getValue("id")}</div>,
+        cell: ({row}) => <div className="lowercase pr-3">{row.getValue("email")}</div>,
     },
 ]
-
-export default postsTableColumns
+export default usersTableColumns
