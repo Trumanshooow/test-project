@@ -1,9 +1,6 @@
 "use client"
 import Link from 'next/link'
 import routes, {routeIsActive} from "@/routes/sidebar";
-import SidebarSubmenu from './sidebar-submenu'
-import {Button} from "@/components/ui/button";
-import DashboardIcon from "@/components/icons/dashboardIcon";
 import { usePathname } from 'next/navigation';
 
 
@@ -13,10 +10,7 @@ function SidebarContent() {
     return (
         <div className="flex flex-col w-full text-gray-500 dark:text-gray-300 pt-10">
             <ul>
-                {routes.map((route) =>
-                    route.routes ? (
-                        <SidebarSubmenu route={route} key={route.name}/>
-                    ) : (
+                {routes.map((route) => (
                         <li className='relative py-1' key={route.name}>
                             <Link
                                 href={route.path || '#'}

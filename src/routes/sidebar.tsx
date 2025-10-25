@@ -28,7 +28,6 @@ const routes: IRoute[] = [
     path: '/users', // the url
     icon: 'HomeIcon', // the component being exported from icons/index.js
     name: 'Users', // name that appear in sidebar
-    exact: true,
   },
   {
     path: '/posts',

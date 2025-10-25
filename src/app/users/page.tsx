@@ -13,9 +13,18 @@ function UsersPage() {
         queryFn: getUsers,
     });
 
+    if (error) {
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <p className="text-red-500">Error posts</p>
+            </div>
+        );
+    }
+
+
     return (
         <>
-            <UsersTable data={data} columns={usersTableColumns}/>
+            <UsersTable loading={isLoading} data={data} columns={usersTableColumns}/>
         </>
     );
 };

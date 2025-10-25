@@ -1,32 +1,43 @@
-"use client"
+"use client";
 import * as React from "react";
 import {
-    ColumnFiltersState, flexRender,
-    getCoreRowModel, getFilteredRowModel,
-    getPaginationRowModel, getSortedRowModel,
+    ColumnFiltersState,
+    flexRender,
+    getCoreRowModel,
+    getFilteredRowModel,
+    getPaginationRowModel,
+    getSortedRowModel,
     SortingState,
     useReactTable,
-    VisibilityState
+    VisibilityState,
 } from "@tanstack/react-table";
-import {Input} from "@/components/ui/input";
+import { Input } from "@/components/ui/input";
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
-    DropdownMenuTrigger
+    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {Button} from "@/components/ui/button";
-import {ChevronDown} from "lucide-react";
-import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/table-data/table";
+import { Button } from "@/components/ui/button";
+import { ChevronDown } from "lucide-react";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/table-data/table";
+import { Spinner } from "@/components/ui/spinner";
 
-function PostsTable({data, columns}) {
-    const [sorting, setSorting] = React.useState<SortingState>([])
-    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-    const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
-    const [rowSelection, setRowSelection] = React.useState({})
+function PostsTable({ data, columns, loading }) {
+    const [sorting, setSorting] = React.useState<SortingState>([]);
+    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+    const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+    const [rowSelection, setRowSelection] = React.useState({});
 
     const table = useReactTable({
-        data: data ?? [] ,
+        data: data ?? [],
         columns,
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
@@ -42,90 +53,84 @@ function PostsTable({data, columns}) {
             columnVisibility,
             rowSelection,
         },
-    })
+    });
 
     return (
-        <div className="w-full bg-white dark:bg-gray-800 rounded-3xl px-10 py-6">
-            <div className="flex items-center py-4">
+        <div className="w-full bg-white dark:bg-gray-800 rounded-3xl p-6">
+            {/* Filter and Column Visibility Controls */}
+            <div className="flex items-center py-4 gap-4">
                 <Input
-                    placeholder="Filter emails..."
+                    placeholder="Filter titles..."
                     value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-                    onChange={(event) =>
-                        table.getColumn("title")?.setFilterValue(event.target.value)
-                    }
-                    className="max-w-sm ml-2 border-gray-300 dark:text-white"
+                    onChange={(event) => table.getColumn("title")?.setFilterValue(event.target.value)}
+                    className="max-w-sm border-gray-300 dark:border-gray-600 dark:text-white"
                 />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto  dark:text-white">
-                            Columns <ChevronDown/>
+                        <Button variant="outline" className="ml-auto dark:border-gray-600 dark:text-white">
+                            Columns <ChevronDown className="ml-2 h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="bg-white">
+                    <DropdownMenuContent align="end" className="bg-white dark:bg-gray-800">
                         {table
                             .getAllColumns()
                             .filter((column) => column.getCanHide())
-                            .map((column) => {
-                                return (
-                                    <DropdownMenuCheckboxItem
-                                        key={column.id}
-                                        className="capitalize"
-                                        checked={column.getIsVisible()}
-                                        onCheckedChange={(value) =>
-                                            column.toggleVisibility(!!value)
-                                        }
-                                    >
-                                        {column.id}
-                                    </DropdownMenuCheckboxItem>
-                                )
-                            })}
+                            .map((column) => (
+                                <DropdownMenuCheckboxItem
+                                    key={column.id}
+                                    className="capitalize dark:text-white"
+                                    checked={column.getIsVisible()}
+                                    onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                                >
+                                    {column.id}
+                                </DropdownMenuCheckboxItem>
+                            ))}
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <div className="overflow-hidden rounded-md border px-4">
+
+            {/* Table */}
+            <div className="overflow-hidden rounded-md border dark:border-gray-600">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
-                            <TableRow key={headerGroup.id}>
-                                {headerGroup.headers.map((header) => {
-                                    return (
-                                        <TableHead key={header.id} className="pr-6">
-                                            {header.isPlaceholder
-                                                ? null
-                                                : flexRender(
-                                                    header.column.columnDef.header,
-                                                    header.getContext()
-                                                )}
-                                        </TableHead>
-                                    )
-                                })}
+                            <TableRow key={headerGroup.id} className="dark:border-gray-600">
+                                {headerGroup.headers.map((header) => (
+                                    <TableHead key={header.id} className="pr-6 dark:text-white">
+                                        {header.isPlaceholder
+                                            ? null
+                                            : flexRender(header.column.columnDef.header, header.getContext())}
+                                    </TableHead>
+                                ))}
                             </TableRow>
                         ))}
                     </TableHeader>
                     <TableBody>
-                        {table.getRowModel().rows?.length ? (
+                        {loading ? (
+                            <TableRow>
+                                <TableCell colSpan={columns.length} className="h-80 text-center">
+                                    <div className="flex justify-center items-center">
+                                        <Spinner className="size-8" />
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ) : table.getRowModel().rows?.length ? (
                             table.getRowModel().rows.map((row) => (
                                 <TableRow
                                     key={row.id}
                                     data-state={row.getIsSelected() && "selected"}
-                                    className="dark:border-white"
+                                    className="dark:border-gray-600"
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id} className="pr-6">
-                                            {flexRender(
-                                                cell.column.columnDef.cell,
-                                                cell.getContext()
-                                            )}
+                                        <TableCell key={cell.id} className="pr-6 dark:text-white">
+                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </TableCell>
                                     ))}
                                 </TableRow>
                             ))
                         ) : (
                             <TableRow>
-                                <TableCell
-                                    colSpan={columns.length}
-                                    className="h-24 text-center"
-                                >
+                                <TableCell colSpan={columns.length} className="h-24 text-center dark:text-white">
                                     No results.
                                 </TableCell>
                             </TableRow>
@@ -133,8 +138,10 @@ function PostsTable({data, columns}) {
                     </TableBody>
                 </Table>
             </div>
-            <div className="flex items-center justify-end space-x-2 py-4">
-                <div className="text-muted-foreground flex-1 dark:text-white text-sm">
+
+            {/* Pagination and Selection Info */}
+            <div className="flex items-center justify-end gap-4 py-4">
+                <div className="text-sm text-muted-foreground dark:text-gray-300">
                     {table.getFilteredSelectedRowModel().rows.length} of{" "}
                     {table.getFilteredRowModel().rows.length} row(s) selected.
                 </div>
@@ -144,7 +151,7 @@ function PostsTable({data, columns}) {
                         size="sm"
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
-                        className="dark:text-white"
+                        className="dark:border-gray-600 dark:text-white"
                     >
                         Previous
                     </Button>
@@ -153,14 +160,14 @@ function PostsTable({data, columns}) {
                         size="sm"
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
-                        className="dark:text-white"
+                        className="dark:border-gray-600 dark:text-white"
                     >
                         Next
                     </Button>
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-export default PostsTable
+export default PostsTable;

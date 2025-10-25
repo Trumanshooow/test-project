@@ -1,12 +1,13 @@
 import {Geist, Geist_Mono} from "next/font/google";
 import Sidebar from "../components/sidebar";
 import Header from "../components/header";
-import {ThemeProvider} from "../components/theme-provider";
+import {ThemeProvider} from "@/components/theme-provider";
 import QueryProviders from "@/lib/QueryProviders";
 import "./globals.css";
 
 import type {Metadata} from "next";
 import {type ReactNode} from 'react';
+import Footer from "@/components/footer";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -32,20 +33,21 @@ export default function RootLayout({
         <html lang="fa" dir="rtl">
         <body
             className={`${geistSans.variable} ${geistMono.variable}
-         flex flex-col h-screen bg-gray-200 antialiased`
+            flex flex-col h-screen bg-gray-200 dark:bg-gray-500 antialiased`
             }>
         <ThemeProvider>
             <Header/>
-            <div className="grid grid-cols-12 w-full h-screen">
-                <div className="col-span-2">
+            <div className="grid grid-cols-12 w-full h-screen overflow-hidden justify-center">
+                <div className="col-span-2 hidden sm:block">
                     <Sidebar/>
                 </div>
-                <div className="container flex flex-col col-span-10 mx-auto p-10">
+                <div className="container flex flex-col col-span-12 sm:col-span-10 mx-auto p-10">
                     <QueryProviders>
                         {children}
                     </QueryProviders>
                 </div>
             </div>
+            <Footer/>
         </ThemeProvider>
         </body>
         </html>

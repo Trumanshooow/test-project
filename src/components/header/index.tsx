@@ -6,18 +6,26 @@ import SearchIcon from "@/components/icons/searchIcon";
 import MoonIcon from "@/components/icons/moonIcon";
 import SunIcon from "@/components/icons/sunIcon";
 import {Button} from "@/components/ui/button";
-import {useThemeStore} from "@/lib/store";
+import {useMenuStore, useThemeStore} from "@/lib/store";
 import DashboardIcon from "@/components/icons/dashboardIcon";
+import {Menu} from "lucide-react"
 
 const Header = () => {
+
     const {theme, toggleTheme} = useThemeStore();
+    // const { isOpen, toggle, close } = useMenuStore();
+
+
     return (
         <div
-            className="w-full grid grid-cols-12 h-24 items-center justify-between bg-white dark:bg-gray-800"
+            className="w-full grid grid-cols-12 min-h-24 items-center justify-between bg-white dark:bg-gray-800"
         >
             <div className="flex col-span-2 w-full justify-center items-center">
-                <DashboardIcon className="w-8 text-gray-700 dark:text-gray-200"/>
-                <h3 className="text-2xl font-bold text-gray-700 dark:text-gray-200">Sidebar</h3>
+                <Button className="sm:hidden">
+                    <Menu className="dark:text-white w-16 h-16 text-gray-800"/>
+                </Button>
+                <DashboardIcon className="w-8 text-gray-700 dark:text-gray-200 hidden sm:block"/>
+                <h3 className="text-2xl font-bold text-gray-700 dark:text-gray-200 hidden sm:block">Sidebar</h3>
             </div>
             <div className="col-span-10 flex justify-between px-10">
                 <div className="flex">
@@ -42,6 +50,7 @@ const Header = () => {
                     <Input className="w-60 border-2 bg-white border-gray-300  dark:bg-gray-100 dark:text-gray-800 "/>
                     <SearchIcon className="w-7 text-gray-800  dark:text-gray-200 mb-1"/>
                 </div>
+
             </div>
         </div>
     );

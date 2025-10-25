@@ -21,6 +21,13 @@
   }
 }
 
+html {
+  @apply text-base;
+  @apply text-sm; /* فونت سایز پایه برای موبایل */
+  @apply sm:text-base; /* فونت سایز برای sm (≥640px) */
+  @apply md:text-lg; /* فونت سایز برای md (≥768px) */
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

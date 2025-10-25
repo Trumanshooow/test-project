@@ -18,8 +18,9 @@ import {
 import {Button} from "@/components/ui/button";
 import {ChevronDown} from "lucide-react";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/table-data/table";
+import {Spinner} from "@/components/ui/spinner";
 
-function UsersTable({data, columns}) {
+function UsersTable({data, columns, loading}) {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
@@ -103,33 +104,29 @@ function UsersTable({data, columns}) {
                         ))}
                     </TableHeader>
                     <TableBody>
-                        {table.getRowModel().rows?.length ? (
+                        {loading ? (
+                            <TableRow>
+                                <TableCell colSpan={columns.length} className="h-80 text-center">
+                                    <div className="flex justify-center items-center">
+                                        <Spinner className="size-8" />
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ) : table.getRowModel().rows?.length && (
                             table.getRowModel().rows.map((row) => (
                                 <TableRow
                                     key={row.id}
                                     data-state={row.getIsSelected() && "selected"}
-                                    className="dark:border-white"
+                                    className="dark:border-gray-600"
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id} className="pr-6">
-                                            {flexRender(
-                                                cell.column.columnDef.cell,
-                                                cell.getContext()
-                                            )}
+                                        <TableCell key={cell.id} className="pr-6 dark:text-white">
+                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </TableCell>
                                     ))}
                                 </TableRow>
                             ))
-                        ) : (
-                            <TableRow>
-                                <TableCell
-                                    colSpan={columns.length}
-                                    className="h-24 text-center"
-                                >
-                                    No results.
-                                </TableCell>
-                            </TableRow>
-                        )}
+                        ) }
                     </TableBody>
                 </Table>
             </div>
