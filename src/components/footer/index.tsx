@@ -7,8 +7,7 @@ const Footer = () => {
         <div className="w-full grid grid-cols-2 min-h-24 bg-white dark:bg-gray-800 dark:text-gray-200">
             <div className="flex justify-center items-center gap-2">
                 <div className="w-52 text-left ml-2 text-gray-500 dark:text-gray-400">
-                    <p className="overflow-ellipsis">Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in
-                    </p>
+                    <p className="line-clamp-3">Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in Lorem ipsum, or lipsum as it is sometimes known</p>
                 </div>
                 <div className="w-[1px] h-1/2 bg-gray-300"></div>
                 <h4 className="text-xl font-bold">About Us</h4>

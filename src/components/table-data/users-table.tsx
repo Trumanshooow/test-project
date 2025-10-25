@@ -32,7 +32,6 @@ import {
 } from "@/components/table-data/table";
 import { Spinner } from "@/components/ui/spinner";
 
-// تایپ برای داده‌های جدول
 interface UserTableProps<TData> {
     data: TData[];
     columns: ColumnDef<TData>[];
