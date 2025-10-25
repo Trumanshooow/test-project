@@ -1,6 +1,8 @@
 "use client";
+
 import * as React from "react";
 import {
+    ColumnDef,
     ColumnFiltersState,
     flexRender,
     getCoreRowModel,
@@ -30,7 +32,14 @@ import {
 } from "@/components/table-data/table";
 import { Spinner } from "@/components/ui/spinner";
 
-function PostsTable({ data, columns, loading }) {
+// تایپ برای داده‌های جدول
+interface PostTableProps<TData> {
+    data: TData[];
+    columns: ColumnDef<TData>[];
+    loading: boolean;
+}
+
+function PostsTable<TData>({ data, columns, loading }: PostTableProps<TData>) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
@@ -62,12 +71,17 @@ function PostsTable({ data, columns, loading }) {
                 <Input
                     placeholder="Filter titles..."
                     value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-                    onChange={(event) => table.getColumn("title")?.setFilterValue(event.target.value)}
+                    onChange={(event) =>
+                        table.getColumn("title")?.setFilterValue(event.target.value)
+                    }
                     className="max-w-sm border-gray-300 dark:border-gray-600 dark:text-white"
                 />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto dark:border-gray-600 dark:text-white">
+                        <Button
+                            variant="outline"
+                            className="ml-auto dark:border-gray-600 dark:text-white"
+                        >
                             Columns <ChevronDown className="ml-2 h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
@@ -94,12 +108,21 @@ function PostsTable({ data, columns, loading }) {
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
-                            <TableRow key={headerGroup.id} className="dark:border-gray-600">
+                            <TableRow
+                                key={headerGroup.id}
+                                className="dark:border-gray-600"
+                            >
                                 {headerGroup.headers.map((header) => (
-                                    <TableHead key={header.id} className="pr-6 dark:text-white">
+                                    <TableHead
+                                        key={header.id}
+                                        className="pr-6 dark:text-white"
+                                    >
                                         {header.isPlaceholder
                                             ? null
-                                            : flexRender(header.column.columnDef.header, header.getContext())}
+                                            : flexRender(
+                                                header.column.columnDef.header,
+                                                header.getContext()
+                                            )}
                                     </TableHead>
                                 ))}
                             </TableRow>
@@ -108,7 +131,10 @@ function PostsTable({ data, columns, loading }) {
                     <TableBody>
                         {loading ? (
                             <TableRow>
-                                <TableCell colSpan={columns.length} className="h-80 text-center">
+                                <TableCell
+                                    colSpan={columns.length}
+                                    className="h-80 text-center"
+                                >
                                     <div className="flex justify-center items-center">
                                         <Spinner className="size-8" />
                                     </div>
@@ -122,7 +148,10 @@ function PostsTable({ data, columns, loading }) {
                                     className="dark:border-gray-600"
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id} className="pr-6 dark:text-white">
+                                        <TableCell
+                                            key={cell.id}
+                                            className="pr-6 dark:text-white"
+                                        >
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </TableCell>
                                     ))}
@@ -130,7 +159,10 @@ function PostsTable({ data, columns, loading }) {
                             ))
                         ) : (
                             <TableRow>
-                                <TableCell colSpan={columns.length} className="h-24 text-center dark:text-white">
+                                <TableCell
+                                    colSpan={columns.length}
+                                    className="h-24 text-center dark:text-white"
+                                >
                                     No results.
                                 </TableCell>
                             </TableRow>

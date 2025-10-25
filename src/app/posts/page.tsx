@@ -4,7 +4,6 @@ import PostsTable from '@/components/table-data/posts-table';
 import { getPosts } from '@/lib/placeholder-data';
 import { useQuery } from '@tanstack/react-query';
 import PostsTableColumns from '@/components/table-data/posts-table-columns';
-import { Spinner } from '@/components/ui/spinner';
 
 function PostsPage() {
     const { data, isLoading, error } = useQuery({
